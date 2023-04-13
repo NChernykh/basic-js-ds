@@ -1,49 +1,144 @@
 const { NotImplementedError } = require('../extensions/index.js');
 
-// const { Node } = require('../extensions/list-tree.js');
+const { Node } = require('../extensions/list-tree.js');
 
 /**
 * Implement simple binary search tree according to task description
 * using Node from extensions
 */
 class BinarySearchTree {
+  constructor() {
+    this.parent = null;
+  }
 
   root() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    return this.parent;
   }
 
-  add(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  add(data) {
+    const node = this.parent;
+    if (node === null) {
+      this.parent = new Node(data);
+      return;
+    } else {
+      const searchTree = function(node) {
+        if (data < node.data) {
+          if (node.left === null) {
+            node.left = new Node(data);
+            return;
+          } else if (node.left !== null) {
+            return searchTree(node.left)
+          }
+        } else if (data > node.data) {
+          if (node.right === null) {
+            node.right = new Node(data);
+            return;
+          } else if (node.right !== null) {
+            return searchTree(node.right);
+          }
+        } else {
+          return undefined;
+        }
+      };
+      return searchTree(node);
+    }
   }
 
-  has(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  has(data) {
+    let current = this.parent;
+    while (current) {
+      if (data === current.data) {
+        return true;
+      }
+      data < current.data ? current = current.left : current = current.right;
+    }
+    return false;
   }
 
-  find(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  find(data) {
+    let current = this.parent;
+    while (current.data !== data) {
+      if (data < current.data) {
+        current = current.left;
+      } else {
+        current = current.right;
+      }
+      if (current === null) {
+        return null;
+      }
+    }
+    return current;
   }
 
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  remove(data) {
+    const removeNode = function (node, data) {
+      if (node === null) {
+        return null;
+      }
+      if (data === node.data) {
+        //if no child
+        if (node.left === null && node.right === null) {
+          return null;
+        }
+        // if no left child
+        if (node.left === null) {
+          return node.right;
+        }
+        //if no right child
+        if (node.right === null) {
+          return node.left;
+        }
+        //child exist
+        let tempNode = node.right;
+        while (tempNode.left !== null) {
+          tempNode = tempNode.left;
+        }
+        node.data = tempNode.data;
+        node.right = removeNode(node.right, tempNode.data);
+        return node;
+      } else if (data < node.data) {
+        node.left = removeNode(node.right, data)
+        return node;
+      } else {
+        node.right = removeNode(node.right, data)
+        return node;
+      }
+    }
+    this.parent = removeNode(this.parent, data)
   }
 
   min() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    let current = this.parent;
+    while (current.left !== null) {
+      current = current.left
+    }
+    return current.data;
   }
 
   max() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    let current = this.parent;
+    while (current.right !== null) {
+      current = current.right;
+    }
+    return current.data;
   }
 }
 
 module.exports = {
   BinarySearchTree
 };
+
+const tree = new BinarySearchTree();
+tree.add(1);
+tree.add(2);
+tree.add(3);
+tree.add(-54);
+tree.add(5);
+tree.add(6);
+tree.add(7);
+
+console.log(tree)
+console.log(tree.remove(3))
+console.log(tree.has(3))
+console.log(tree.min())
+console.log(tree.max())
