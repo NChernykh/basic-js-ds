@@ -75,17 +75,17 @@ class BinarySearchTree {
       if (node === null) {
         return null;
       }
-      if (data === node.data) {
+      if (data == node.data) {
         //if no child
-        if (node.left === null && node.right === null) {
+        if (node.left == null && node.right == null) {
           return null;
         }
         // if no left child
-        if (node.left === null) {
+        if (node.left == null) {
           return node.right;
         }
         //if no right child
-        if (node.right === null) {
+        if (node.right == null) {
           return node.left;
         }
         //child exist
@@ -97,7 +97,7 @@ class BinarySearchTree {
         node.right = removeNode(node.right, tempNode.data);
         return node;
       } else if (data < node.data) {
-        node.left = removeNode(node.right, data)
+        node.left = removeNode(node.left, data)
         return node;
       } else {
         node.right = removeNode(node.right, data)
