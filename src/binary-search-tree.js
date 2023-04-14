@@ -128,17 +128,3 @@ module.exports = {
   BinarySearchTree
 };
 
-const tree = new BinarySearchTree();
-tree.add(1);
-tree.add(2);
-tree.add(3);
-tree.add(-54);
-tree.add(5);
-tree.add(6);
-tree.add(7);
-
-console.log(tree)
-console.log(tree.remove(3))
-console.log(tree.has(3))
-console.log(tree.min())
-console.log(tree.max())
